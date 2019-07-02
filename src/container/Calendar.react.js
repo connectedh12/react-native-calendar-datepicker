@@ -189,7 +189,7 @@ export default class Calendar extends Component {
         <View style={{ flexDirection:'column', alignItems:'center', marginTop:5}}>
         {
            this.state.timeSlot.map((data,index) => (
-                <TouchableOpacity key={index} onPress={ () => this.props.selectDateTimeSlot({'time':data, 'date':this.state.focus}) }><Text style={{fontSize:18,marginTop:20}}>{data}</Text></TouchableOpacity>
+                <TouchableOpacity key={index} onPress={ () => this.props.selectDateTimeSlot({'time':data, 'date':this.state.focus}) }><Text style={{fontSize:18,marginTop:20,fontFamily: 'Poppins-Regular'}}>{data}</Text></TouchableOpacity>
             ))
         }
         </View>
