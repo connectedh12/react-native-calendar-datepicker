@@ -14,6 +14,8 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   StyleSheet,
+  Image,
+  ScrollView
 } from 'react-native';
 
 // Component specific libraries.
@@ -130,7 +132,6 @@ export default class Calendar extends Component {
 
   render() {
     const barStyle = StyleSheet.flatten([styles.barView, this.props.barView]);
-
     const previousDay = Moment(this.state.focus).subtract(1, 'day');
     const previousDayValid = this.props.minDate.diff(Moment(previousDay).endOf('day'), 'seconds') <= 0;
     const nextDay = Moment(this.state.focus).add(1, 'day');
@@ -142,57 +143,71 @@ export default class Calendar extends Component {
         // Wrapper view default style.
       },this.props.style]}>
         <View style={{
-          flexDirection: 'row',
+          flexDirection: 'row'
         }}>
           <View style={[styles.barView, this.props.barView]}>
             { this.state.stage === DAY_SELECTOR && previousDayValid ?
-              <TouchableHighlight
+              <TouchableOpacity
                 hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                underlayColor={barStyle ? barStyle.backgroundColor : 'transparent'}
                 onPress={this._previousMonth}
               >
-                <Text style={this.props.barText}>{LEFT_CHEVRON}</Text>
-              </TouchableHighlight> : <View/>
+              <Image style={{marginTop:10}} source={require('./icons8-back-to.png')} />
+              </TouchableOpacity> :
+              <TouchableOpacity
+                  hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                  underlayColor={barStyle ? barStyle.backgroundColor : 'transparent'}
+                >
+               <Image style={{marginTop:10}} source={require('./icons8-back-to-40.png')} />
+               </TouchableOpacity>
             }
             <View style={{flexDirection:'column',alignItems:'center'}}>
+            <View style={{flexDirection:'row'}}>
              {
              this.state.focus === Moment().format("MMMM DD, YYYY") ?
-             <Text style={this.props.barText}>Today
+             <Text style={this.props.barText}>Today,
              </Text>: <View/>
              }
              {
               this.state.focus === Moment().add(1,'days').format("MMMM DD, YYYY") ?
-              <Text style={this.props.barText}>Tomorrow
+              <Text style={this.props.barText}>Tomorrow,
               </Text>: <View/>
              }
-            <TouchableHighlight
+             <Text style={this.props.barText}>{Moment(this.state.focus).format('dddd')}</Text>
+             </View>
+            <TouchableOpacity
               activeOpacity={this.state.stage !== YEAR_SELECTOR ? 0.8 : 1}
-              underlayColor={barStyle ? barStyle.backgroundColor : 'transparent'}
               style={{ alignSelf: 'center' }}
-            >
+             >
               <Text style={this.props.barText}>
               {this._stageText()}
               </Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
             </View>
             { this.state.stage === DAY_SELECTOR && nextDayValid ?
-              <TouchableHighlight
+              <TouchableOpacity
                 hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                underlayColor={barStyle ? barStyle.backgroundColor : 'transparent'}
                 onPress={this._nextMonth}
               >
-                <Text style={this.props.barText}>{RIGHT_CHEVRON}</Text>
-              </TouchableHighlight> : <View/>
+               <Image style={{marginTop:10}} source={require('./icons8-next-page.png')} />
+              </TouchableOpacity> :
+              <TouchableOpacity
+                  hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                  underlayColor={barStyle ? barStyle.backgroundColor : 'transparent'}
+               >
+              <Image style={{marginTop:10}} source={require('./icons8-next-page-40.png')} />
+              </TouchableOpacity>
             }
           </View>
         </View>
+        <ScrollView>
         <View style={{ flexDirection:'column', alignItems:'center', marginTop:5}}>
         {
            this.state.timeSlot.map((data,index) => (
-                <TouchableOpacity key={index} onPress={ () => this.props.selectDateTimeSlot({'time':data, 'date':this.state.focus}) }><Text style={{fontSize:18,marginTop:20,fontFamily: 'Poppins-Regular'}}>{data}</Text></TouchableOpacity>
+                <TouchableOpacity key={index} onPress={ () => this.props.selectDateTimeSlot({'time':data, 'date':this.state.focus}) }><Text style={{fontSize:16,marginTop:15,fontFamily:'Arial'}}>{data}</Text></TouchableOpacity>
             ))
         }
         </View>
+        </ScrollView>
       </View>
     );
   }
@@ -209,9 +224,20 @@ const styles = StyleSheet.create({
   barView: {
     flexGrow: 1,
     flexDirection: 'row',
-    padding: 5,
+    backgroundColor:'white',
+    paddingTop:10,
+    paddingBottom:10,
     justifyContent: 'space-between',
     alignItems: 'center',
+    elevation: 3,
+    marginTop:20,
+    shadowColor: "#000",
+    shadowOffset: {
+   	 width: 0,
+   	 height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22
   },
   nextStage: {
     padding: 5,
