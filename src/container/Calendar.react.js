@@ -129,7 +129,7 @@ export default class Calendar extends Component {
      this.setState({focus:Moment(this.state.focus).add(1, 'days').format("MMMM DD, YYYY")});
   };
 
-  render() {
+  render () {
     const barStyle = StyleSheet.flatten([styles.barView, this.props.barView]);
     const previousDay = Moment(this.state.focus).subtract(1, 'day');
     const previousDayValid = this.props.minDate.diff(Moment(previousDay).endOf('day'), 'seconds') <= 0;
