@@ -94,8 +94,8 @@ export default class Calendar extends Component {
     this.state = {
       stage: stage,
       focus: props.selected,
-      timeSlot: [ "6:00 AM - 6:30 AM","6:30 AM - 7:00 AM", "7:30 AM - 8:00 AM", "8:00 AM - 8:30 AM", "8:30 AM - 9:00 AM"]
-    }
+      timeSlot: [ "6:00 AM - 6:30 AM","6:30 AM - 7:00 AM", '7:30 AM - 8:00 AM', '8:00 AM - 8:30 AM', '8:30 AM - 9:00 AM', '9:00 AM - 9:30 AM', '9:30 AM - 10:00 AM', '9:30 AM - 10:00 AM']    }
+  }
 
   _stageText = () : string => {
      return this.state.focus
@@ -129,7 +129,7 @@ export default class Calendar extends Component {
      this.setState({focus:Moment(this.state.focus).add(1, 'days').format("MMMM DD, YYYY")});
   };
 
-  render () {
+  render() {
     const barStyle = StyleSheet.flatten([styles.barView, this.props.barView]);
     const previousDay = Moment(this.state.focus).subtract(1, 'day');
     const previousDayValid = this.props.minDate.diff(Moment(previousDay).endOf('day'), 'seconds') <= 0;
